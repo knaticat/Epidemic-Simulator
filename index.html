@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Epidemic Simulator</title>
+  <link href="StyleSheet.css" rel="stylesheet">
+  </style>
+  <script src="../p5.js"></script>
+  <script src="ball.js"></script>
+  <script src="human.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+</head>
+<body>
+  <h1> Epidemic Simulator <br />
+      <div id='myname'>Shoubhik Banerjee</div>
+  </h1>
+  <div id="container">
+      <div id ='canv'>
+      </div>
+      <div id = 'chart3'>
+        <div id ='chart'></div>
+        <div id='chart2'></div>
+      </div>
+      <div id="left">
+        <h2>Parameters</h2>
+        <div id = 'slide'>
+          <p>Population Size: <span id="population"></span></p>
+          <div id="pop_slider"></div>
+          <p>Size of Human: <span id="Human_size"></span></p>
+          <div id="hum_slider"></div>
+          <p>Probability of Infection: <span id="Inf_prob"></span></p>
+          <div id="inf_slider"></div>
+          <p>Infection Radius: <span id="Inf_rad"></span></p>
+          <div id="radslider"></div>
+          <p>Probability of People that are old (in percent): <span id="old_prob"></span></p>
+          <div id="oldslider"></div>
+          <p>Social Distancing Factor: <span id="socio"></span><p id = "social">(Recommended to be set
+          to 0 while in Market and Quarantine mode but feel free to experiment!)</p>
+          <div id="soslider"></div>
+          </p>
+        </div>
+      </div>
+      <div id="Intro">
+          <h3>Instructions</h3>
+          <div id="rule">
+              <ul>
+                  <li>This Simulation is based on the SIRD (Susceptible, Infected, Recovered and Dead)
+                  model of infection spread. </li>
+                  <li>Aim of the project was to check how the older population is at a higher risk of
+              death from such Epidemics.</li>
+                <li>Every human has certain Probability of getting infected and recovers or dies
+                after a period of around 12 days and further it cannnot infect other humans.</li>
+
+                <li>Click Reset to accept changed parameter values or follow it up with a mode:</li>
+                <ul>
+                  <li>Market Mode: Simulates situations in which people gather at a central
+                  location. </li>
+                  <li>Quarantine Mode: When activated it gathers the infected in the quarantine zone!</li>
+                </ul>
+                <li>Inspiration for the project: <a href="https://youtu.be/gxAaO2rsdIs" target="_blank">Simulating an Epidemic</a></</li>
+
+              </ul>
+          </div>
+      </div>
+  </div>
+
+  <h4>...Keep your old away from cold coz they're gold...</h>
+
+
+  <script src="graph.js"></script>
+  <script src="graph2.js"></script>
+</body>
+
+</html>
