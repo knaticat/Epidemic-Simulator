@@ -160,13 +160,33 @@ class Repeller{
     CalculateRepulsion(m){
       var force = p5.Vector.sub(this.location,m.location);
       var distance = force.mag();
-      distance = constrain(distance,2,500);
+      distance = constrain(distance,2,400);
       force.normalize();
       var strength = -(this.G * this.mass * m.mass)/(distance*distance);
       force.mult(strength);
       return force;
     }
   }
+class Community extends Attractor{
+    constructor(x,y){
+      super();
+      this.location = createVector(x,y);
+      this.G = 8;
+    }
+    CalculateAttraction(m){
+      var force = p5.Vector.sub(this.location,m.location);
+      var distance = force.mag();
+      distance = constrain(distance,40,800);
+      force.normalize();
+      var strength = (this.G * this.mass * m.mass) / (distance * distance);
+      if(distance < 60){
+        force.mult(strength/4);
+      }else
+      force.mult(strength);
+      return force;
+    }
+
+}
 //Quarantine People
 function quarantine(people){
   if(q_on == true){
@@ -374,12 +394,40 @@ function draw() {
     ball.update();
     ball.infect(int(infradslider.value()), people);
     ball.recover(people);
+    
+    var travel = new Community(width/4,height/4);
+    var travel2 = new Community(width/4,3*(height/4));
+    var travel3 = new Community(3*(width/4),height/4);
+    var travel4 = new Community(3*(width/4),3*(height/4));
+    var tra = travel.CalculateAttraction(ball);
+    var tra1 = travel2.CalculateAttraction(ball);
+    var tra2 = travel3.CalculateAttraction(ball);
+    var tra3 = travel4.CalculateAttraction(ball);
+
+    ball.applyForce(tra);
+    ball.applyForce(tra1);
+    ball.applyForce(tra2);
+    ball.applyForce(tra3);
+
     ball.show();
   }
+
   updateCount(people);
   market.mousePressed(markison);
   quar.mousePressed(qison);
   central(people);
   quarantine(people);
+  noFill();
+  stroke(255);
+  strokeWeight(1.5);
+  rect(width/4,height/4,210,210);
+  rectMode(CENTER);
+  rect(width/4,3*(height/4),210,210);
+  rectMode(CENTER);
+  rect(3*(width/4),height/4,210,210);
+  rectMode(CENTER);
+  rect(3*(width/4),3*(height/4),210,210);
+  rectMode(CENTER);
+
   button_reset.mousePressed(resetSketch);
 }
