@@ -50,7 +50,7 @@ h4{
 #note{
   font-size:14px;
 }
-#social{
+#social, #leak{
   font-size: 14px;
 }
 #canv{
@@ -91,7 +91,7 @@ h4{
   font-family: sans-serif,serif;
   background-color:#F5F2F2;
 }
-#population, #Human_size, #old_prob, #socio, #Inf_prob, #Inf_rad{
+#population, #Human_size, #old_prob, #socio, #Inf_prob, #Inf_rad, #leako{
   color: #9D0826;
   font-weight: bold;
 }
