@@ -77,7 +77,7 @@ class Human extends Ball{
   //Death of Human.
   death(ball){
     ball.id = 'D';
-    ball.colour = color(255);
+    ball.colour = color(0,0);
   }
   //Implementation of Social Distancing among humans
   socialDistance(people,perception_radius){
@@ -173,7 +173,7 @@ function quarantine(people){
     noFill();
     stroke(255,0,0,150);
     strokeWeight(1.5);
-    ellipse(width/2,height/2,60,60);
+    ellipse(width/2,height/2,80,80);
     ellipseMode(CENTER);
     for(let ball of people){
       var repell = new Repeller();
@@ -185,7 +185,8 @@ function quarantine(people){
 }
 //Sub-method of quarantine to capture people.
 function transport(ball){
-  if(ball.id == 'I'){
+  esc = random(0,1);
+  if(ball.id == 'I' && esc < leakyslider.value()){
     var trans = new InfAttractor();
     var shift = trans.CalculateInfAttraction(ball);
     ball.applyForce(shift);
@@ -287,6 +288,7 @@ var sizeslider;
 var infslider;
 var infradslider;
 var oldprobslider;
+var leakyslider;
 function setup() {
   var canvas = createCanvas(450, 450);
   canvas.parent('canv');
@@ -317,6 +319,8 @@ function setup() {
   infradslider.parent('radslider');
   oldprobslider = createSlider(20,80,20,30);
   oldprobslider.parent('oldslider');
+  leakyslider = createSlider(0.35,0.85,0.85,0.10);
+  leakyslider.parent('leakslider');
 }
 function markison(){
   mark_on = true;
@@ -362,6 +366,7 @@ function draw() {
   document.getElementById("Inf_rad").innerHTML = infradslider.value();
   document.getElementById("socio").innerHTML = separationSlider.value();
   document.getElementById("old_prob").innerHTML = oldprobslider.value();
+  document.getElementById("leako").innerHTML = leakyslider.value();
 
   for (let ball of people) {
     ball.edges();
