@@ -14,12 +14,20 @@ class Ball{
     var f = p5.Vector.div(force,this.mass);
     this.acceleration.add(f);
   }
-  edges() {
-    if ((this.location.x > width-this.radius) || (this.location.x < this.radius)) {
-      this.velocity.x = - this.velocity.x;
+  edges(){
+    if (this.location.x > width){
+      this.location.x = width;
+      this.velocity.x *= -1;
+    }else if (this.location.x < 0) {
+      this.location.x = 0;
+      this.velocity.x *= -1;
     }
-    if ((this.location.y > height-this.radius) || (this.location.y < this.radius)) {
-      this.velocity.y = - this.velocity.y;
+    else if (this.location.y < 0) {
+      this.location.y = 0;
+      this.velocity.y *= -1;
+    } else if (this.location.y > height) {
+      this.location.y = height;
+      this.velocity.y *= -1;
     }
   }
   update() {
