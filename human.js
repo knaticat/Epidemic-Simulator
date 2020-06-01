@@ -167,6 +167,7 @@ class Repeller{
       return force;
     }
   }
+//Community Travel
 class Community extends Attractor{
     constructor(x,y){
       super();
@@ -179,13 +180,57 @@ class Community extends Attractor{
       distance = constrain(distance,40,800);
       force.normalize();
       var strength = (this.G * this.mass * m.mass) / (distance * distance);
-      if(distance < 60){
-        force.mult(strength/4);
-      }else
-      force.mult(strength);
+      if(distance < 100 && distance > 45){
+        force.mult(strength/1.2);
+      }else if(distance < 45){
+          force.mult(-1*(strength/3));
+      }
+      else{
+         force.mult(strength/2);
+      }
       return force;
     }
 
+}
+//Function to calll community travel
+function community(people){
+  if(co_on == true){
+    noFill();
+    stroke(255);
+    strokeWeight(1.5);
+    rect(width/4,height/4,222,222);
+    rectMode(CENTER);
+    rect(width/4,3*(height/4),222,222);
+    rectMode(CENTER);
+    rect(3*(width/4),height/4,222,222);
+    rectMode(CENTER);
+    rect(3*(width/4),3*(height/4),222,222);
+    rectMode(CENTER);
+    for(let ball of people){
+      var travel = new Community(width/4,height/4);
+      var travel1 = new Community(width/4,3*(height/4));
+      var travel2 = new Community(3*(width/4),height/4);
+      var travel3 = new Community(3*(width/4),3*(height/4));
+      var tra = travel.CalculateAttraction(ball);
+      var tra1 = travel1.CalculateAttraction(ball);
+      var tra2 = travel2.CalculateAttraction(ball);
+      var tra3 = travel3.CalculateAttraction(ball);
+      ball.applyForce(tra);
+      ball.applyForce(tra1);
+      ball.applyForce(tra2);
+      ball.applyForce(tra3);
+    }
+    setTimeout(work,8000);
+  }
+}
+//Helper function for community travel.
+function work(){
+  if(frameCount % 10 == 0){
+      m = random(people);
+      var centeratt = new Attractor();
+      var tra4 = centeratt.CalculateAttraction(m);
+      m.applyForce(tra4);
+    };
 }
 //Quarantine People
 function quarantine(people){
@@ -226,6 +271,7 @@ function central(people){
     ba.applyForce(force2);
   }
 }
+
 //Update count of the state of each individual.
 function updateCount(people){
   var sus_old = 0;
@@ -301,7 +347,11 @@ var dead = 0;
 var rec = 0;
 var mark_on = false;
 var q_on = false;
+var co_on = false;
 let button_reset;
+let market;
+let quar;
+let society;
 let separationSlider;
 var popslider;
 var sizeslider;
@@ -329,6 +379,8 @@ function setup() {
   market.parent('canv');
   quar = createButton("Quarantine");
   quar.parent('canv');
+  society = createButton("Community");
+  society.parent('canv');
   popslider = createSlider(10,100,50,10);
   popslider.parent('pop_slider');
   sizeslider= createSlider(4,8,6,1);
@@ -342,13 +394,21 @@ function setup() {
   leakyslider = createSlider(0.35,0.85,0.85,0.10);
   leakyslider.parent('leakslider');
 }
+//Triggers
+function comison(){
+  co_on = true;
+  mark_on = false;
+  q_on = false;
+}
 function markison(){
   mark_on = true;
   q_on = false;
+  co_on = false;
 }
 function qison(){
   q_on = true;
   mark_on = false;
+  co_on = false;
 }
 function resetSketch(){
     graph = false;
@@ -376,6 +436,7 @@ function resetSketch(){
    p.colour = color(255,0,0);
    mark_on = false;
    q_on = false;
+   co_on = false;
 }
 function draw() {
   background(0);
@@ -394,40 +455,14 @@ function draw() {
     ball.update();
     ball.infect(int(infradslider.value()), people);
     ball.recover(people);
-    
-    var travel = new Community(width/4,height/4);
-    var travel2 = new Community(width/4,3*(height/4));
-    var travel3 = new Community(3*(width/4),height/4);
-    var travel4 = new Community(3*(width/4),3*(height/4));
-    var tra = travel.CalculateAttraction(ball);
-    var tra1 = travel2.CalculateAttraction(ball);
-    var tra2 = travel3.CalculateAttraction(ball);
-    var tra3 = travel4.CalculateAttraction(ball);
-
-    ball.applyForce(tra);
-    ball.applyForce(tra1);
-    ball.applyForce(tra2);
-    ball.applyForce(tra3);
-
     ball.show();
   }
-
   updateCount(people);
   market.mousePressed(markison);
   quar.mousePressed(qison);
+  society.mousePressed(comison);
   central(people);
   quarantine(people);
-  noFill();
-  stroke(255);
-  strokeWeight(1.5);
-  rect(width/4,height/4,210,210);
-  rectMode(CENTER);
-  rect(width/4,3*(height/4),210,210);
-  rectMode(CENTER);
-  rect(3*(width/4),height/4,210,210);
-  rectMode(CENTER);
-  rect(3*(width/4),3*(height/4),210,210);
-  rectMode(CENTER);
-
+  community(people);
   button_reset.mousePressed(resetSketch);
 }
