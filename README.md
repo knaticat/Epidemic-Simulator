@@ -21,4 +21,4 @@ travel across other communities.
 Inspired from 3B1B video *"Simulating an Epidemic"* and ideas acquired from the Youtube Channel *"The Coding Train"*.
 Framework based on ***p5.js***.
 
-**Live Demo*: [Epidemic Simulator](https://knaticat.github.io/Epidemic-Simulator/)
+**Live Demo**: [Epidemic Simulator](https://knaticat.github.io/Epidemic-Simulator/)
